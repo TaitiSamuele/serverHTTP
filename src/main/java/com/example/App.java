@@ -14,6 +14,11 @@ import java.net.Socket;
 import java.util.Date;
 import java.util.Scanner;
 
+import com.fasterxml.jackson.core.exc.StreamWriteException;
+import com.fasterxml.jackson.databind.DatabindException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+
 /**
  * Hello world!
  *
@@ -25,6 +30,9 @@ public class App
 
         if(path.endsWith("/")){
             path = path + "index.html";
+        }
+        if(path.equals("/classe.json")){
+            creaClasse();
         }
 
         try{
@@ -83,6 +91,8 @@ public class App
                 case "jpeg": 
                     type = "image/" + type;
                     break;
+                case "json":  
+
                 case "js":    
                     type = "application/" + type;
                     break;
@@ -91,6 +101,33 @@ public class App
             System.out.println(type);
         }
         return type;
+    }
+
+    /*creazione della classe */
+
+    private static void creaClasse(){
+        Classe c = new Classe("5dia", "tw_11");
+
+        Alunno a1 = new Alunno("aa", "aaaa", "121212");
+        Alunno a2 = new Alunno("bb", "bbbb", "232323");
+        Alunno a3 = new Alunno("cc", "cccc", "343434");
+
+        c.add(a1);
+        c.add(a2);
+        c.add(a3);
+        
+        System.out.println("creata la classe");
+        
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            objectMapper.writeValue(new File("root/classe.json"), c);
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+
     }
 
     public static void main( String[] args )
